@@ -34,7 +34,7 @@ jobs:
 
   mobsfscan:
     needs: [ validation ]
-    name: "Run mobsfcan"
+    name: "Run mobsfscan"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
