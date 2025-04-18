@@ -1,0 +1,38 @@
+name: Build App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  lint:
+    name: Spotless check
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+      - name: Set up JDK
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: spotless
+        run: ./gradlew spotlessCheck
+
+  build:
+    name: Build and Tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Build with Gradle
+        run: |
+          ./gradlew --stacktrace assemble

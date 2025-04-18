@@ -1,0 +1,31 @@
+[versions]
+agp = "8.9.1"
+annotations = "1.9.1"
+appcompat = "1.7.0"
+collection = "1.4.2"
+jetSec = "1.1.0-alpha07"
+junit = "1.2.1"
+kotlin = "2.1.20"
+material = "1.12.0"
+mavenPublish = "0.30.0"
+runner = "1.6.2"
+spotless = "7.0.2"
+tink = "1.8.0"
+
+[libraries]
+androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotations" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "jetSec" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+tink-android = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tink" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }

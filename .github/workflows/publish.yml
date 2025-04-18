@@ -1,0 +1,33 @@
+name: Publish Maven
+
+on:
+  release:
+    types: [ released ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Release build and publish
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Release build
+        run: ./gradlew assemble
+
+      - name: Publish to MavenCentral
+        run: |
+          ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
