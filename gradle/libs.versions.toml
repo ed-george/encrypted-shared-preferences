@@ -2,7 +2,7 @@
 agp = "8.9.1"
 annotations = "1.9.1"
 appcompat = "1.7.0"
-collection = "1.4.2"
+collection = "1.5.0"
 jetSec = "1.1.0-alpha07"
 junit = "1.2.1"
 kotlin = "2.1.20"
