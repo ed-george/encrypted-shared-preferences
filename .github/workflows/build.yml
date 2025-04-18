@@ -1,4 +1,7 @@
 name: Build App
+permissions:
+  contents: read
+  security-events: write
 
 on:
   push:
@@ -7,32 +10,62 @@ on:
     branches: [ '*' ]
 
 jobs:
-  lint:
-    name: Spotless check
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-      - name: Set up JDK
-        uses: actions/setup-java@v4.7.1
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: spotless
-        run: ./gradlew spotlessCheck
-
-  build:
-    name: Build and Tests
-    runs-on: macos-latest
+  validation:
+    name: "Validate wrapper"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
+      - uses: gradle/actions/wrapper-validation@v4
 
-      - name: Set up JDK
+  lint:
+    needs: [ validation ]
+    name: "Spotless check"
+    runs-on: macos-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4.2.2
+      - name: "Set up JDK"
         uses: actions/setup-java@v4.7.1
         with:
           distribution: 'zulu'
           java-version: 17
+      - name: "Run spotless"
+        run: ./gradlew spotlessCheck
 
-      - name: Build with Gradle
+  mobsfscan:
+    needs: [ validation ]
+    name: "Run mobsfcan"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.3.0
+        with:
+          python-version: '3.12'
+      - name: "Run mobsfscan"
+        uses: MobSF/mobsfscan@main
+        with:
+          args: 'sharedprefs-core/ sharedprefs-ktx/ --sarif --output mobsfscan.sarif || true'
+      - name: "Upload mobsfscan report"
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: mobsfscan.sarif
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobsfscan.sarif
+          path: mobsfscan.sarif
+
+  build:
+    needs: [ lint ]
+    name: "Build and run tests"
+    runs-on: macos-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4.2.2
+      - name: "Set up JDK"
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: "Build with Gradle"
         run: |
-          ./gradlew --stacktrace assemble
+          ./gradlew assemble --stacktrace
