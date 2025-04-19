@@ -56,8 +56,15 @@ jobs:
 
   build:
     needs: [ lint ]
-    name: "Build and run tests"
-    runs-on: macos-latest
+    name: "Build and test app"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [ 21, 35 ]
+        arch: [ x86_64 ]
+        target: [ google_apis ]
+        channel: [ stable ]
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4.2.2
@@ -69,3 +76,15 @@ jobs:
       - name: "Build with Gradle"
         run: |
           ./gradlew assemble --stacktrace
+      - name: "Enable KVM"
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: "Run tests"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
+          script: ./gradlew connectedCheck
