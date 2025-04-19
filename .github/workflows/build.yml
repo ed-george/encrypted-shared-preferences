@@ -59,8 +59,12 @@ jobs:
     name: "Build and test app"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         api-level: [ 21, 35 ]
+        arch: [ x86_64 ]
+        target: [ google_apis ]
+        channel: [ stable ]
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4.2.2
@@ -81,4 +85,6 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
           script: ./gradlew connectedCheck
