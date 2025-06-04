@@ -1,7 +1,7 @@
 [versions]
 agp = "8.10.0"
 annotations = "1.9.1"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 collection = "1.5.0"
 jetSec = "1.1.0-alpha07"
 junit = "1.2.1"
