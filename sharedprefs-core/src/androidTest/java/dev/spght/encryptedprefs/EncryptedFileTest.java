@@ -39,7 +39,6 @@ import java.io.OutputStream;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import org.junit.Assert;
-import org.junit.AssumptionViolatedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -416,11 +415,6 @@ public class EncryptedFileTest {
             File file = new File(directory + "/multiThreadFileCreate-file-" + i);
             file.delete(); // Clear out file from previous run if it exists
             files.add(file);
-        }
-        // Inlining what should just be Assume.assumeTrue(SDK_INT >= M) because AndroidStudio's
-        // static analysis can't understand that.
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
-            throw new AssumptionViolatedException("API v23 or higher is required to run this test");
         }
 
         final String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);

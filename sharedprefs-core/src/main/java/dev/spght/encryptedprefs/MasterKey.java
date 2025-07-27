@@ -38,9 +38,8 @@ import java.security.cert.CertificateException;
 /**
  * Wrapper for a master key used in the library.
  *
- * <p>On Android M (API 23) and above, this is class references a key that's stored in the Android
- * Keystore. On Android L (API 21, 22), there isn't a master key. <hr> Based on MasterKey.java from
- * AndroidX Crypto - v1.1.0-alpha07
+ * <p>This class references a key that's stored in the Android Keystore. <hr> Based on
+ * MasterKey.java from AndroidX Crypto - v1.1.0-alpha07
  *
  * <p>Permalink: <a
  * href="https://android.googlesource.com/platform/frameworks/support/+/e50caacef9794c6c1d05ed647347a01b06b96930/security/security-crypto/src/main/java/androidx/security/crypto/MasterKey.java">e50caac</a>
@@ -72,25 +71,15 @@ public final class MasterKey {
 
     /* package */ MasterKey(@NonNull String keyAlias, @Nullable Object keyGenParameterSpec) {
         mKeyAlias = keyAlias;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mKeyGenParameterSpec = (KeyGenParameterSpec) keyGenParameterSpec;
-        } else {
-            mKeyGenParameterSpec = null;
-        }
+        mKeyGenParameterSpec = (KeyGenParameterSpec) keyGenParameterSpec;
     }
 
     /**
      * Checks if this key is backed by the Android Keystore.
      *
-     * @return {@code true} if the key is in Android Keystore, {@code false} otherwise. This method
-     *     always returns false when called on Android Lollipop (API 21 and 22).
+     * @return {@code true} if the key is in Android Keystore, {@code false} otherwise.
      */
     public boolean isKeyStoreBacked() {
-        // Keystore is not used prior to Android M (API 23)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
-
         try {
             KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
             keyStore.load(null);
@@ -103,15 +92,8 @@ public final class MasterKey {
         }
     }
 
-    /**
-     * Gets whether user authentication is required to use this key.
-     *
-     * <p>This method always returns {@code false} on Android L (API 21 + 22).
-     */
+    /** Gets whether user authentication is required to use this key. */
     public boolean isUserAuthenticationRequired() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        }
         return mKeyGenParameterSpec != null
                 && Api23Impl.isUserAuthenticationRequired(mKeyGenParameterSpec);
     }
@@ -119,16 +101,10 @@ public final class MasterKey {
     /**
      * Gets the duration in seconds that the key is unlocked for following user authentication.
      *
-     * <p>The value returned for this method is only meaningful on Android M+ (API 23) when {@link
-     * #isUserAuthenticationRequired()} returns {@code true}.
-     *
      * @return The duration the key is unlocked for in seconds.
      */
     @SuppressLint("MethodNameUnits")
     public int getUserAuthenticationValidityDurationSeconds() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return 0;
-        }
         return mKeyGenParameterSpec == null
                 ? 0
                 : Api23Impl.getUserAuthenticationValidityDurationSeconds(mKeyGenParameterSpec);
@@ -201,11 +177,9 @@ public final class MasterKey {
         public @NonNull Builder setKeyScheme(@NonNull KeyScheme keyScheme) {
             switch (keyScheme) {
                 case AES256_GCM:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (mKeyGenParameterSpec != null) {
-                            throw new IllegalArgumentException(
-                                    "KeyScheme set after setting a " + "KeyGenParamSpec");
-                        }
+                    if (mKeyGenParameterSpec != null) {
+                        throw new IllegalArgumentException(
+                                "KeyScheme set after setting a " + "KeyGenParamSpec");
                     }
                     break;
                 default:
@@ -274,7 +248,6 @@ public final class MasterKey {
          * @param keyGenParameterSpec The key spec to use.
          * @return This builder.
          */
-        @RequiresApi(Build.VERSION_CODES.M)
         public @NonNull Builder setKeyGenParameterSpec(
                 @NonNull KeyGenParameterSpec keyGenParameterSpec) {
             if (mKeyScheme != null) {
@@ -299,14 +272,9 @@ public final class MasterKey {
          * @return The master key.
          */
         public @NonNull MasterKey build() throws GeneralSecurityException, IOException {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return Api23Impl.build(this);
-            } else {
-                return new MasterKey(mKeyAlias, null);
-            }
+            return Api23Impl.build(this);
         }
 
-        @RequiresApi(23)
         static class Api23Impl {
             private Api23Impl() {
                 // This class is not instantiable.
@@ -390,7 +358,6 @@ public final class MasterKey {
         }
     }
 
-    @RequiresApi(23)
     static class Api23Impl {
         private Api23Impl() {
             // This class is not instantiable.

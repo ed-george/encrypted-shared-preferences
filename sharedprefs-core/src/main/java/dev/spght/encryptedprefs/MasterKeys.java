@@ -15,11 +15,9 @@
  */
 package dev.spght.encryptedprefs;
 
-import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -37,7 +35,6 @@ import javax.crypto.KeyGenerator;
  * <p>Permalink: <a
  * href="https://android.googlesource.com/platform/frameworks/support/+/e50caacef9794c6c1d05ed647347a01b06b96930/security/security-crypto/src/main/java/androidx/security/crypto/MasterKeys.java">e50caac</a>
  */
-@RequiresApi(Build.VERSION_CODES.M)
 public final class MasterKeys {
     private MasterKeys() {}
 
