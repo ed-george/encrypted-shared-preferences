@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.0"
+agp = "8.11.1"
 annotations = "1.9.1"
 appcompat = "1.7.1"
 collection = "1.5.0"
