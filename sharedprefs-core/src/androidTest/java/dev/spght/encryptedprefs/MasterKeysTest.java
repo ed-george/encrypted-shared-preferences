@@ -19,13 +19,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.MediumTest;
-import androidx.test.filters.SdkSuppress;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -42,7 +40,6 @@ import org.junit.runner.RunWith;
  * href="https://android.googlesource.com/platform/frameworks/support/+/e50caacef9794c6c1d05ed647347a01b06b96930/security/security-crypto/src/androidTest/java/androidx/security/crypto/MasterKeysTest.java">e50caac</a>
  */
 @MediumTest
-@SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
 @RunWith(AndroidJUnit4.class)
 public class MasterKeysTest {
     private static final String PREFS_FILE = "test_shared_prefs";

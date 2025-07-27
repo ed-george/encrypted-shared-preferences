@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/ed-george/encrypted-shared-preferences/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/ed-george/encrypted-shared-preferences"></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
-  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+  <a href="https://developer.android.com/about/versions/marshmallow"><img alt="API" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/ed-george/encrypted-shared-preferences/actions/workflows/build.yml?query=branch%3Amain"><img alt="Main branch status" src="https://img.shields.io/github/checks-status/ed-george/encrypted-shared-preferences/main">
 </a>
 </p>
@@ -99,6 +99,15 @@ Within your code, replace any existing instances (e.g. imports) of `androidx.sec
 ### Known Issues
 
 * Any encrypted shared preference file(s) or encrypted file(s) should _not_ be backed up with Auto Backup as, when restoring, it is likely the key used to encrypt it will no longer be present and will cause runtime crashes. You should therefore exclude all `EncryptedSharedPreference` or `EncryptedFile` from a backup using [backup rules](https://developer.android.com/guide/topics/data/autobackup#IncludingFiles).
+
+#### Min SDK 21 Support
+As of Tink Android version 1.18.0, support for Android SDK version 21 (Android 5.0 Lollipop) was removed and replaced with a min SDK version of 23 (Android 6.0 Marshmallow).
+
+This change is present in this library's 1.1.x (and above) releases and therefore removes ongoing support for SDK 21 in favour of keeping dependencies up to date.
+
+However, to gauge the impact on users of this library, if this change is problematic for your application please do [raise an issue](https://github.com/ed-george/encrypted-shared-preferences/issues/new) to highlight this.
+
+For more information see https://github.com/ed-george/encrypted-shared-preferences/pull/24
 
 ## License
 ```xml

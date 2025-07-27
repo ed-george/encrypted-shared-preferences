@@ -61,7 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [ 21, 35 ]
+        api-level: [ 23, 35 ]
         arch: [ x86_64 ]
         target: [ google_apis ]
         channel: [ stable ]
