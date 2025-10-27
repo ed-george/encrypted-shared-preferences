@@ -14,7 +14,7 @@ jobs:
     name: "Validate wrapper"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.0
       - uses: gradle/actions/wrapper-validation@v4
 
   lint:
@@ -23,7 +23,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: "Set up JDK"
         uses: actions/setup-java@v5.0.0
         with:
@@ -37,7 +37,7 @@ jobs:
     name: "Run mobsfscan"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.0
       - uses: actions/setup-python@v5.6.0
         with:
           python-version: '3.12'
@@ -67,7 +67,7 @@ jobs:
         channel: [ stable ]
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v5.0.0
       - name: "Set up JDK"
         uses: actions/setup-java@v5.0.0
         with:
