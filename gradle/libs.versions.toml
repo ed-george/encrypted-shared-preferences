@@ -10,7 +10,7 @@ material = "1.13.0"
 mavenPublish = "0.34.0"
 runner = "1.7.0"
 spotless = "7.2.1"
-tink = "1.18.0"
+tink = "1.19.0"
 
 [libraries]
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotations" }
