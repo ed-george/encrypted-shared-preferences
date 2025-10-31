@@ -22,7 +22,8 @@ This library forks both the `androidx.security:security-crypto` and the `android
 
 ### Should I be using this library?
 
-**TL;DR - No, probably not.**
+> [!CAUTION]
+> **TL;DR - No, probably not.**
 
 The existance of `EncryptedSharedPreferences` has misled many developers by implying that there's an inherent insecurity with `SharedPreferences`, which is simply not true.
 
