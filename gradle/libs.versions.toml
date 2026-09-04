@@ -9,7 +9,7 @@ kotlin = "2.1.21"
 material = "1.13.0"
 mavenPublish = "0.34.0"
 runner = "1.7.0"
-spotless = "7.2.1"
+spotless = "8.10.2"
 tink = "1.19.0"
 
 [libraries]
